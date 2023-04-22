@@ -1,0 +1,32 @@
+/env
+db.sqlite3
+/media
+# Directorios de entorno virtual
+venv/
+env/
+
+# Archivos de configuración
+*.pyc
+*.env
+*.sqlite3
+
+# Archivos estáticos y de medios generados
+/static/
+/media/
+
+# Dependencias de Python
+__pycache__/
+*.egg-info/
+dist/
+build/
+
+# Archivos de registro
+*.log
+
+# Archivos generados por IDEs
+.vscode/
+.idea/
+*.iml
+
+#migraciones
+**/migrations/
