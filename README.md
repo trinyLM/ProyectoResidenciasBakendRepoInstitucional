@@ -159,9 +159,61 @@ CORS_ALLOWED_ORIGINS = ['http://repositorioitsz.sytes.net']
 CSRF_TRUSTED_ORIGINS = ['http://repositorioitsz.sytes.net']
 ~~~
 
+el la terminanal hacemos el collectstatic que nos las descargará en el directorio static/tmp/ dentro de nuestro proyecto.
+~~~
+python manage.py collectstatic
+~~~~
+El problema de esto es que si están en un directorio que no es el raíz de static no se muestran y si ya tienes contenido en esa carpeta, como yo que tengo todos los archivos estáticos, los elimina si dices que sí, así que yo hice este apaño del tmp. Lo que haremos después del static es mover el contenido de tmp a static y listo.
+~~~
+cp -r tmp/* /var/www/html/simple_blog/static/
+rm -R tmp/
+~~~
 
+configurar el virtual host, para ello vamos a la siguiente ruta 
+~~~
+/etc/apache2/sites-available/
+~~~
+ y creamos el archivo repos.conf (puedes llamarlo como guste).
 
+~~~
+sudo nano simple_blog.conf
+~~~
+Y añadimos el siguiente código:
+~~~
+<VirtualHost *:80>
+    ServerAdmin simple_blog@blog.com
+    DocumentRoot /var/www/html/simple_blog
+    Alias /static/ /var/www/html/simple_blog/static/
+    Alias /media/  /var/www/html/simple_blog/media/
+    WSGIPassAuthorization On
+    WSGIScriptAlias / /var/www/html/simple_blog/simple_blog/wsgi.py
+    WSGIDaemonProcess simple_blog python-path=/var/www/html/simple_blog:/var/www/html/simple_blog/env/lib/python3.6/site-packages
+    WSGIProcessGroup simple_blog
+</VirtualHost>
+~~~
+ServerAdmin, es el email que aparecerá cuando nuestra web muestre algún error.
+DocumentRoot, ruta de nuestro proyecto.
+Alias /static/ y /media/, cuando se intente acceder a esa ruta el servidor tomará la ruta absoluta dada.
 
+WSGIPassAuthorization On, Activa el módulo WSGI.
+WSGIScriptAlias / /var/www/html/simple_blog/simple_blog/wsgi.py, alias del archivo de configuración wsgi.py, todos los proyectos de Django lo tienen.
+WSGIDaemonProcess simple_blog python-path=/var/www/html/simple_blog:/var/www/html/simple_blog/env/lib/python3.6/site-packages, las librerías del proyecto.
+WSGIProcessGroup simple_blog, el nombre que le daremos al proceso.
+
+Antes de continuar tenemos que instalar el módulo WSGIpara Python3 en apache y lo activamos.
+
+~~~
+sudo apt-get install libapache2-mod-wsgi-py3
+sudo a2enmod wsgi
+~~~
+Después habilitamos nuestro site recién creado:
+~~~
+sudo a2ensite simple_blog.conf
+~~~
+Y reiniciamos apache.
+~~~
+sudo service apache2 restart
+~~~
 
 
 
