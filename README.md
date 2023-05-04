@@ -186,7 +186,7 @@ Y añadimos el siguiente código:
     Alias /static/ /var/www/html/ProyectoResidenciasBakendRepoInstitucional/static/
     Alias /media/  /var/www/html/ProyectoResidenciasBakendRepoInstitucional/media/
     WSGIPassAuthorization On
-    WSGIScriptAlias / /var/www/html/ProyectoResidenciasBakendRepoInstitucional/simple_blog/wsgi.py
+    WSGIScriptAlias / /var/www/html/ProyectoResidenciasBakendRepoInstitucional/repositorioITSZ/wsgi.py
     WSGIDaemonProcess ProyectoResidenciasBakendRepoInstitucional python-path=/var/www/htmlProyectoResidenciasBakendRepoInstitucional:/var/www/html/ProyectoResidenciasBakendRepoInstitucional/env/lib/python3.10/site-packages
     WSGIProcessGroup simple_blog
 </VirtualHost>
@@ -196,7 +196,7 @@ DocumentRoot, ruta de nuestro proyecto.
 Alias /static/ y /media/, cuando se intente acceder a esa ruta el servidor tomará la ruta absoluta dada.
 
 WSGIPassAuthorization On, Activa el módulo WSGI.
-WSGIScriptAlias / /var/www/html/ProyectoResidenciasBakendRepoInstitucional/simple_blog/wsgi.py, alias del archivo de configuración wsgi.py, todos los proyectos de Django lo tienen.
+WSGIScriptAlias / /var/www/html/ProyectoResidenciasBakendRepoInstitucional/repositorioITSZ/wsgi.py, alias del archivo de configuración wsgi.py, todos los proyectos de Django lo tienen.
 WSGIDaemonProcess simple_blog python-path=/var/www/html/ProyectoResidenciasBakendRepoInstitucional:/var/www/html/ProyectoResidenciasBakendRepoInstitucional/env/lib/python3.10/site-packages, las librerías del proyecto.
 WSGIProcessGroup simple_blog, el nombre que le daremos al proceso.
 
